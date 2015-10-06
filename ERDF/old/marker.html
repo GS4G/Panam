@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Remove Markers</title>
+    <style>
+      html, body, #map-canvas {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      #panel {
+        position: absolute;
+        top: 5px;
+        left: 50%;
+        margin-left: -180px;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+      }
+
+      /*
+      Provide the following styles for both ID and class,
+      where ID represents an actual existing "panel" with
+      JS bound to its name, and the class is just non-map
+      content that may already have a different ID with
+      JS bound to its name.
+      */
+
+      #panel, .panel {
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+      }
+
+      #panel select, #panel input, .panel select, .panel input {
+        font-size: 15px;
+      }
+
+      #panel select, .panel select {
+        width: 100%;
+      }
+
+      #panel i, .panel i {
+        font-size: 12px;
+      }
+
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
+    <script>
+// This example creates circles on the map, representing
+// populations in North America.
+
+// First, create an object containing LatLng and population for each city.
+var citymap = {};
+citymap['ABANCOURT'] = {center: new google.maps.LatLng(49.7,1.766667),  population:328,inaccessible:0,dep:02};
+citymap['ABBECOURT'] = {center: new google.maps.LatLng(49.6,3.183333),  population:563,inaccessible:0,dep:02};
+citymap['ABBEVILLE'] = {center: new google.maps.LatLng(50.1,1.833333),  population:13834,inaccessible:23.0446725459014,dep:80};
+citymap['ABBEVILLE ST LUCIEN'] = {center: new google.maps.LatLng(49.516667,2.166667),  population:379,inaccessible:8.17941952506596,dep:80};
+citymap['ABLAINCOURT PRESSOIR'] = {center: new google.maps.LatLng(49.833333,2.05),  population:123,inaccessible:0,dep:80};
+citymap['ACHERY'] = {center: new google.maps.LatLng(49.683333,3.383333),  population:256,inaccessible:0,dep:80};
+citymap['ACHEUX EN AMIENOIS'] = {center: new google.maps.LatLng(50.066667,2.533333),  population:264,inaccessible:0,dep:80};
+citymap['ANDAINVILLE'] = {center: new google.maps.LatLng(49.9,1.783333),  population:122,inaccessible:0,dep:60};
+citymap['ANDELAIN'] = {center: new google.maps.LatLng(49.633333,3.366667),  population:80,inaccessible:0,dep:60};
+citymap['ANDEVILLE'] = {center: new google.maps.LatLng(49.25,2.166667),  population:1317,inaccessible:0,dep:60};
+citymap['YZEUX'] = {center: new google.maps.LatLng(49.966667,2.116667),  population:127,inaccessible:0.78740157480315,dep:60};
+
+var cityCircle02=[];
+var cityCircle60=[];
+var cityCircle80=[];
+var map;
+
+function initialize() {
+  // Create the map.
+  var mapOptions = {
+    zoom: 9,
+    center: new google.maps.LatLng(49.5875920, 2.841003),
+    mapTypeId: google.maps.MapTypeId.Roadmap,
+	panControl: false,
+ 	 zoomControl: false,
+  	mapTypeControl: false,
+  scaleControl: false,
+  streetViewControl: false,
+  overviewMapControl: false,
+   disableDefaultUI: true
+  };
+
+  var map = new google.maps.Map(document.getElementById('map-canvas'),
+      mapOptions);
+
+  // Construct the circle for each value in citymap.
+  // Note: We scale the area of the circle based on the population.
+  
+  var incr02=0;
+  var incr60=0;
+  var incr80=0;
+  for (var city in citymap) {
+	var temp_dep=citymap[city].dep;
+	var inac = citymap[city].inaccessible;
+	var str;
+		var flc;
+    if (inac== 0){
+        str='#78F360';
+		flc='#78F360';
+		}	
+   	else if (inac <1){
+		str='#8FEE53';
+		flc='#8FEE53';}
+		
+	else if (inac<5){
+		str='#AAE947';
+		flc='#AAE947';}
+	
+	else if (inac <10){
+		str='#C8E43C';
+		flc='#C8E43C';}
+	else if ( inac<15){
+		str='#DFD631';
+		flc='#DFD631';}
+	else if ( inac<20){
+		str='#DAA826';
+		flc='#DAA826';}
+	else if ( inac<25){
+		str='#D5791C';
+		flc='#D5791C';}
+	else if (inac <30){
+		str='#D04712';
+		flc='#D04712';
+        }
+	else if ( inac>=30){
+		str='#CB1308';
+		flc='#CB1308';
+        }
+ 	
+    var populationOptions = {
+      
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+	  map: map,
+      center: citymap[city].center,
+	  fillOpacity: 0.35,
+      fillColor: flc,
+	  strokeColor: str,
+      radius: Math.sqrt(citymap[city].population) * 100
+    };
+    
+	if (temp_dep==02)
+	{
+	 cityCircle02[incr02]=new google.maps.Circle(populationOptions);
+	 incr02++;
+	}
+	else if (temp_dep==60)
+	{
+	 cityCircle60[incr60]=new google.maps.Circle(populationOptions);
+	 incr60++;
+	}
+	else if (temp_dep==80)
+	{
+	 cityCircle80[incr80]=new google.maps.Circle(populationOptions);
+	 incr80++;
+	}
+  }
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+	  // Add a marker to the map and push to the array.
+	function addMarker(location) 
+	{
+	  var marker = new google.maps.Marker({
+		position: location,
+		map: map
+	  });
+	  markers.push(marker);
+	}
+
+	// Sets the map on all markers in the array.
+	function setAllMap() 
+	{
+	  for (var i = 0; i < cityCircle02.length; i++ ) {
+			window.alert(cityCircle02[i].type);
+			cityCircle02[i].setMap(map);
+		  }
+	}
+
+	// Removes the markers from the map, but keeps them in the array.
+	function clearMarkers02() {
+	for (var i = 0; i < cityCircle02.length; i++ ) {
+			cityCircle02[i].setMap(null);
+		  }
+	}
+	function clearMarkers60() {
+	for (var i = 0; i < cityCircle60.length; i++ ) {
+			cityCircle60[i].setMap(null);
+		  }
+	}
+	function clearMarkers80() {
+	for (var i = 0; i < cityCircle80.length; i++ ) {
+			cityCircle80[i].setMap(null);
+		  }
+	}
+
+	// Shows any markers currently in the array.
+	function showMarkers() {
+	  setAllMap(map);
+	}
+
+	// Deletes all markers in the array by removing references to them.
+	function deleteMarkers() {
+	  clearMarkers();
+	  markers = [];
+	}
+    </script>
+	
+  </head>
+  <body>
+    <div id="panel">
+      <input onclick="clearMarkers02();" type=button value="02hide">
+	  <input onclick="clearMarkers60();" type=button value="60hide">
+	  <input onclick="clearMarkers80();" type=button value="80hide">
+      <input onclick="setAllMap();" type=button value="Show All Markers">
+      <input onclick="deleteMarkers();" type=button value="Delete Markers">
+    </div>
+    <div id="map-canvas"></div>
+    <p>Click on the map to add markers.</p>
+  </body>
+</html>

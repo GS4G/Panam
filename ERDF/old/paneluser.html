@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html>
+
+<script language=JavaScript>
+// PLF - http://www.monjavascript.net/ 
+var fois=0 //a supprimer si le résultat se fait dans un champ
+boutrep = new Array();
+function fradio1(bouton,reponse) 
+{
+boutrep[bouton]=reponse
+}
+function fonct_form(form) {
+resultat='<html>\n<title>r&eacute;sultat du formulaire</title>\n<head>\n</head>\n<body>\n';
+err ="";
+if (form.input1.value == "") {
+err +="Indiquez le nom de votre site !\n";
+}
+if (form.input2.value != "http://") {
+resultat +="<p align=\"center\">Le nom de votre site est : ";
+resultat +="<a href=\""+form.input2.value+"\">"+form.input1.value+"</a></p>\n";
+}else err +="Indiquez l'URL de votre site !\n";
+if (form.input3.value != "") {
+resultat +="<p align=\"center\">Description : "+form.input3.value+".\n";
+}else resultat +="<p align=\"center\">Pas de description.\n";
+resultat +="<br>langue : "+form.input4.value+".\n";
+if (form.input5.checked) {
+resultat +="<br>utilise le Javascript\n";
+}else resultat +="<br>n'utilise pas le Javascript\n";
+resultat +="<br>Nombre de visiteurs par jour : "+boutrep[1]+".\n";
+resultat +="<br>Age du du site : "+boutrep[2]+".\n";
+if (err != "") {
+alert(err);
+}
+else{ 
+resultat +="</p>\n</body>\n</html>";
+form.result.value = resultat; 
+}} 
+</script>
+</head>
+<body>
+<form action="" method="post" name="monform" id="monform">
+<div align="center">
+<table width="560" border="0">
+<tr bordercolor="#f3f3f3">
+<td>Titre de votre site :</td>
+<td><input size=40 name="input1" maxlength="100">
+</td>
+</tr>
+<tr bordercolor="#f3f3f3">
+<td>URL de votre site :</td>
+<td><input size=40 name="input2" value="http://">
+</td>
+</tr>
+<tr bordercolor="#f3f3f3">
+<td>Description :</td>
+<td><input type="text" size="40" name="input3" maxlength="200">
+</td>
+</tr>
+<tr bordercolor="#f3f3f3">
+<td>Langue du site :</td>
+<td>
+<select name="input4">
+<option value="Allemand">Allemand</option>
+<option value="Anglais">Anglais</option>
+<option value="Espagnol">Espagnol</option>
+<option value="Français" selected>Français</option>
+<option value="Autre">Autre</option>
+</select>
+</td>
+</tr>
+<tr bordercolor="#f3f3f3">
+<td>Vous utilisez du Javascript dans vos pages</td>
+<td><input name="input5" type=checkbox >
+</td>
+</tr>
+<tr bordercolor="#f3f3f3">
+<td>Nombre de visiteurs par jour</td>
+<td><p>
+<input type="radio" name="r1" value="- 100" onClick="fradio1(1,this.value)">- 100<br>
+<input type="radio" name="r1" value="100 à 500" onClick="fradio1(1,this.value)">100 à 500<br>
+<input type="radio" name="r1" value="500 à 1000" onClick="fradio1(1,this.value)">500à 1000<br>
+<input type="radio" name="r1" value="+ 1000" onClick="fradio1(1,this.value)">+ 1000<br>
+</p>
+</td>
+</tr>
+<tr bordercolor="#f3f3f3">
+<td>Cr&eacute;ation du site</td>
+<td><input type="radio" name="r2" value="- 1 an" onClick="fradio1(2,this.value)">- 1 an<br>
+<input type="radio" name="r2" value="1 à 2 ans" onClick="fradio1(2,this.value)">1 à 2 ans<br>
+<input type="radio" name="r2" value="2 à 5 ans" onClick="fradio1(2,this.value)">2 à 5 ans<br>
+<input type="radio" name="r2" value="+ 5 ans" onClick="fradio1(2,this.value)">+ 5 ans </td>
+</tr>
+</table>
+<br>
+<table width="560" border="0">
+<tr bordercolor="#f3f3f3">
+<td><div align="center"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+<input onClick="fonct_form(this.form)" type=button value="Envoyer" name="button1">
+</font></div>
+</td>
+<td>
+<div align="center"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+</font></div>
+<div align="center"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+<input onClick=fonct_dial(this.form) type=reset value="R&eacute;tablir" name="button2">
+</font></div>
+</td>
+</tr>
+</table>
+</div>
+<p align="center"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+<textarea name=result rows=10 wrap=PHYSICAL cols=65></textarea>
+<br>
+<input onClick=form.result.focus();form.result.select() type=button value="S&eacute;lectionner le code et coller dans une page vierge" name=grab>
+</font></p>
+</form>
+</body>
+</html>

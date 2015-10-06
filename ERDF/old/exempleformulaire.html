@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html>
+
+<script language=JavaScript>
+// PLF - http://www.monjavascript.net/ 
+var fois=0 //a supprimer si le résultat se fait dans un champ
+boutrep = new Array();
+function fradio1(bouton,reponse) 
+{
+boutrep[bouton]=reponse
+}
+
+function fonct_form(form) {
+resultat='<html>\n<title>r&eacute;sultat du formulaire</title>\n<head>\n</head>\n<body>\n';
+err ="";
+if (form.com.value == "") {
+alert("Commune obligatoire.\n");
+    form.com.focus();
+}
+if (form.dep.value == "") {
+alert("Departement obligatoire.\n");
+    form.dep.focus();
+}
+if (form.entr.value == "") {
+alert("Entreprise obligatoire.\n");
+    form.entr.focus();
+}
+if (form.input2.value != "http://") {
+resultat +="<p align=\"center\">Le nom de votre site est : ";
+resultat +="<a href=\""+form.input2.value+"\">"+form.input1.value+"</a></p>\n";
+}else err +="Indiquez l'URL de votre site !\n";
+if (form.input3.value != "") {
+resultat +="<p align=\"center\">Description : "+form.input3.value+".\n";
+}else resultat +="<p align=\"center\">Pas de description.\n";
+resultat +="<br>langue : "+form.input4.value+".\n";
+if (form.input5.checked) {
+resultat +="<br>utilise le Javascript\n";
+}else resultat +="<br>n'utilise pas le Javascript\n";
+resultat +="<br>Nombre de visiteurs par jour : "+boutrep[1]+".\n";
+resultat +="<br>Age du du site : "+boutrep[2]+".\n";
+if (err != "") {
+alert(err);
+}
+else{ 
+resultat +="</p>\n</body>\n</html>";
+form.result.value = resultat; 
+}} 
+</script>
+</head>
+<body>
+<form action="" method="post" name="monform" id="monform">
+<div align="center">
+<table width="560" border="0">
+<tr bordercolor="#f3f3f3">
+<td>Commune:</td>
+<td><input size=40 name="com" list="Commune_list"></td>
+<datalist id="Commune_list">
+<option value="Amiens">
+<option value="Rouen">
+<option value="Camon">
+<option value="Y">
+<option value="Creil">
+<option value="SUUUUR">
+</datalist>
+</tr>
+<tr bordercolor="#f3f3f3">
+<td>Departement:</td>
+<td><input size=40 name="dep" list="Dep_list"></td>
+<datalist id="Dep_list">
+<option value="02">
+<option value="60">
+<option value="80">
+<option value="All">
+</datalist>
+</tr>
+<tr bordercolor="#f3f3f3">
+<td>Entreprise:</td>
+<td><input type="text" size="40" name="entr" list="Entr_list"></td>
+<datalist id="Entr_list">
+<option value="EDF">
+<option value="La poste">
+</datalist>
+</tr>
+<tr bordercolor="#f3f3f3">
+<td><div align="center"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+<input onClick="fonct_form(this.form)" type=button value="Envoyer" name="button1">
+</font></div>
+</td>
+<td>
+<div align="center"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+</font></div>
+<div align="center"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+<input onClick=fonct_dial(this.form) type=reset value="R&eacute;tablir" name="button2">
+</font></div>
+</td>
+</tr>
+</table>
+</div>
+<p align="center"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+<textarea name=result rows=10 wrap=PHYSICAL cols=65></textarea>
+<br>
+<input onClick=form.result.focus();form.result.select() type=button value="S&eacute;lectionner le code et coller dans une page vierge" name=grab>
+</font></p>
+</form>
+
+</body>
+</html>

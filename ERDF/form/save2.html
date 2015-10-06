@@ -1,0 +1,237 @@
+
+<!-- 
+/**
+
+  The Initial Developer of the Original Code is
+  Matthieu  - http://www.programmation-facile.com/
+  Portions created by the Initial Developer are Copyright (C) 2013
+  the Initial Developer. All Rights Reserved.
+
+  Contributor(s) :
+
+ */
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+ --> 
+
+<!DOCTYPE html> 
+<html lang="fr"> 
+<head> 
+<title>BootStrap 3 - Developpement Facile</title> 
+<meta charset="UTF-8">
+
+<!-- permet au CSS de déterminer la résolution de l'écran en fonction du périphérique -->
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+</head>
+
+<body>
+
+
+<header> 
+	<span><h1>Developpement Facile</h1></span>  
+</header>
+
+<!-- La mise en forme du contenu de la div via la classe .container
+La classe .container permet de définir la largeur et la disposition du canevas de la page. -->
+<div class="container"> 
+      
+    <div class="row" id="content"> 
+        <!-- occupe  9 colonnes sur 12 de la grille -->
+
+        <div class="col-md-9"> 
+            <!-- formulaire avec une zone de texte -->
+            <div class="row"> 
+            <div class="col-xs-12 col-sm-6 col-md-4"> 
+                <form role="form" id="myForm" class="form-vertical"> 
+
+					<div class="form-group"> 
+						<label for="InputTitle">Commune</label>         
+						<input type="text" class="form-control" list="list_commune" id="InputFormation1" name="InputFormation1" required placeholder="Stats de quelle commune ?" >
+						<datalist id="list_commune">
+						<option value="ABANCOURT">
+						<option value="ABBECOURT">
+						<option value="ABBEVILLE">
+						<option value="Y">
+						<option value="Creil">
+						<option value="SUUUUR">
+						</datalist>
+					</div> 
+					
+					<div class="form-group"> 
+						<label for="InputTitle">Entreprise</label>         
+						<input type="text" class="form-control" list="list_entre" id="InputFormation2" name="InputFormation2" required placeholder="Données EDF ou la poste ?" >
+						<datalist id="list_entre">
+						<option value="EDF">
+						<option value="La poste">
+						</datalist>
+					</div>
+					
+					<div class="form-group"> 
+						<label for="InputTitle">Département</label>         
+						<input type="text" class="form-control" list="list_dep" id="InputFormation3" name="InputFormation3" required placeholder="Département de comparaison" >
+						<datalist id="list_dep">
+						<option value="AISNE">
+						<option value="OISE">
+						<option value="SOMME">
+						<option value="PICARDIE">
+						</datalist>
+					</div>
+
+                <!-- case à cocher -->
+                    <label> 
+						<input type="checkbox" name="checkboxb" id="checkboxb" value=""> 
+						Graphique baton</input>
+                    </label>
+                    <label> 
+						<input type="checkbox" name="checkboxc" id="checkboxc" value=""> 
+						Graphique colonnes</input>
+                    </label>
+                    <label> 
+						<input type="checkbox" name="checkboxs" id="checkboxs" value=""> 
+						Graphique spécial</input>
+                    </label>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+						  <button type="button" class="btn btn-success" id="submit" onClick="running();"/>Generate</button>
+						  
+						</div>
+					</div>
+                
+                </form>
+            </div> 
+        </div>      
+    </div>
+</div>
+
+    <div class="modal" id="modChart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" id="exampleModalLabel">Résumé <div style="display:inline" class="formCommune"></div></h4>
+				</div>
+				<div class="modal-body">
+					<center><canvas id="canvas1" width=350px height=350px ></canvas></center>
+					<center><canvas id="canvas2" width=350px height=300px ></canvas></center>
+				</div>
+				<div class="modal-footer">
+					<center><h4><font color="#FF7256"> <div style="display:inline" class="formCommune"></div> </font> &nbsp 
+					<font color="#4EEE94"><div style="display:inline" class="formComp"></div> </font></h4></center>
+				</div>
+			</div>
+		</div>
+	</div>
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.1/Chart.min.js"></script>
+        <script>
+		
+		
+		$('#modChart').on('shown.bs.modal',function(event){
+    var link = $(event.relatedTarget);
+    // get title
+    var title = link.html();
+    // get labels
+    var table = link.parents('table');
+    var labels = [];
+    $('#'+table.attr('id')+'>thead>tr>th').each(function(index,value){
+        // without first column
+        if(index>0){labels.push($(value).html());}
+    });
+    // get target source
+    var target = [];
+    $.each(labels, function(index,value){
+        target.push(link.attr('data-target-source'));
+    });
+    // Chart initialisieren
+    var modal = $(this);
+    var canvas = modal.find('.modal-body canvas');
+    modal.find('.modal-title').html(title);
+    var chart = new Chart(canvas[0].getContext("2d")).Radar({        
+        responsive: true,
+        labels: ["Libre", "Vigik", "PTT", "Digicode", "Interphone"],
+        datasets: [{
+            label: Form_Commune,
+				fillColor: "rgba(255,114,86,0.2)",
+				strokeColor: "rgba(255,114,86,1)",
+				pointColor: "rgba(255,114,86,1)",
+				pointStrokeColor: "#fff",
+				pointHighlightFill: "#fff",
+				pointHighlightStroke: "rgba(255,114,86,1)",
+				data: data_commune
+        },{
+            label: "Somme",
+				fillColor: "rgba(78,238,148,0.2)",
+				strokeColor: "rgba(78,238,148,1)",
+				pointColor: "rgba(78,238,148,1)",
+				pointStrokeColor: "#fff",
+				pointHighlightFill: "#fff",
+				pointHighlightStroke: "rgba(78,238,148,1)",
+				data: data_compare
+        }]
+    },{});
+	
+	var chart = new Chart(canvas[1].getContext("2d")).Bar({        
+        responsive: true,
+        labels: ["Libre", "Vigik", "PTT", "Digicode", "Interphone"],
+		datasets: [
+			{
+				label: Form_Commune,
+				fillColor: "rgba(255,114,86,0.5)",
+				strokeColor: "rgba(255,114,86,0.8)",
+				highlightFill: "rgba(255,114,86,0.75)",
+				highlightStroke: "rgba(255,114,86,1)",
+				data: data_commune
+			},
+			{
+				label: "My Second dataset",
+				fillColor: "rgba(78,238,148,0.5)",
+				strokeColor: "rgba(78,238,148,0.8)",
+				highlightFill: "rgba(78,238,148,0.75)",
+				highlightStroke: "rgba(78,238,148,1)",
+				data: data_compare
+			}
+		]
+    },{});
+	
+	
+}).on('hidden.bs.modal',function(event){
+    // reset canvas size
+    var modal = $(this);
+    var canvas = modal.find('.modal-body canvas');
+    canvas.attr('width','568px').attr('height','300px');
+    // destroy modal
+    $(this).data('bs.modal', null);
+});
+
+ var newTab = new Array();
+ newTab['ABBECOURT'] = new Array(563,0);
+ newTab['ABBEVILLE'] = new Array(13834,23);
+ newTab['ACHERY'] = new Array(256,0);
+Form_Commune;
+Form_Entreprise;
+Form_Departement;
+function running()
+{
+ Form_Commune= document.getElementById("InputFormation1").value; 
+ Form_Entreprise= document.getElementById("InputFormation2").value; 
+ Form_Departement= document.getElementById("InputFormation3").value;
+ document.getElementById("myForm").reset();
+ window.alert("commune: "+Form_Commune+"pop: "+newTab[Form_Commune][0]);
+ data_commune= [65.1,59.47,80.00,81.11,70];
+ data_compare= [28, 48, 40, 19, 86];
+ $('.formCommune').html(Form_Commune);
+ $('.formComp').html(Form_Departement);
+ 
+ 
+$('#modChart').modal('show')
+}
+</script>
+</body> 
+
+
+</html>

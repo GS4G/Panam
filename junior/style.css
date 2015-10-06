@@ -1,0 +1,182 @@
+#Loupe_1{
+  animation: shakeloupe 4s linear infinite;
+}
+
+@keyframes shakeloupe { 
+    0%      { transform: translate(0px, 0px) rotate(0deg); }
+    15%     { transform: translate(-60px, -0px) rotate(0deg); }
+    30%     { transform: translate(5px, -40px) rotate(0deg); }
+    45%     { transform: translate(-45px, -40px) rotate(0deg); }
+    60%     { transform: translate(-30px, -80px) rotate(0deg); }
+    100%    { transform: translate(0px, 0px) rotate(0deg); }
+}
+
+#oeil_1:hover{
+  opacity: 1;
+}
+
+
+
+#Lignes_gauche_1_{  
+    animation: code 8s linear infinite;  
+}
+
+#Lignes_droite_1_{   
+  animation: code 5s linear infinite;      
+}
+
+@keyframes code { 
+    0%      { transform: translate(0px, 0px)}
+    50%     { transform: translate(0px, -80px)}
+    80%    { transform: translate(0px, 0px) }
+}
+
+
+
+
+
+
+/* Eolienne */
+#pales{
+	animation: turnpales 5s linear infinite;
+}
+
+@keyframes turnpales{
+	
+	0% {transform: none;
+	transform-origin:center;}
+	100%{transform: rotate(360deg);
+	transform-origin:center;}
+	
+}
+
+
+
+/* Elec*/
+
+
+#bt1{
+	animation: updown 2s 1s linear infinite;	
+}
+#bt2{
+	animation: updown 5s 0.1s linear infinite;	
+}
+#bt3{
+	animation: updown 1.5s 0.5s linear infinite;	
+}
+#bt4{
+	animation: updown 15s 0.3s linear infinite;	
+}
+@keyframes updown { 
+    0%      { transform: translate(0px, 0px)}
+    50%     { transform: translate(0, -2em)}
+    100%    { transform: translate(0px, 0px) }
+}
+
+
+
+#red1{
+	animation: clignotement 1s linear infinite;	
+}
+#red2{
+	animation: clignotement 0.5s 0.3s linear infinite;	
+}
+#red3{
+	animation: clignotement 2s 0.75s linear infinite;	
+}
+#red4{
+	animation: clignotement 1s 0.3s linear infinite;	
+}
+
+#bouton_rond_rouge_1_{
+	animation: clignotement 1s 0.3s linear infinite;	
+}
+
+#bouton_rond_vert_1_{
+	animation: clignotement 0.5s 0.4s linear infinite;	
+}
+
+
+@keyframes clignotement { 
+    0%      { opacity:1;}
+    80%     { opacity:1;}
+	81%     { opacity:0.6;}
+    100%    { opacity:0.6;}
+}
+
+
+#bouton_rond_bleu_marine_1_
+{
+	animation: turnbouton1 3s infinite;
+}
+
+#bouton_rond_bleu_ciel_1_
+{
+	animation: turnbouton1 15s infinite;
+}
+
+
+@keyframes turnbouton1 { 
+    0%      { transform:rotate(0deg);transform-origin:center;}
+	50%    { transform:rotate(300deg);transform-origin:center;}
+	70%    { transform:rotate(350deg);transform-origin:center;}
+    100%    { transform:rotate(0deg);transform-origin:center;}
+}
+
+#bouton_vert_rond_centre_1_
+{
+	animation: turnbouton2 5s linear infinite alternate;
+}
+
+
+#Bouton_rond_orange_gauche_1_
+{
+	animation: turnbouton2 5s infinite alternate;
+}
+
+@keyframes turnbouton2 { 
+    0%      { transform:rotate(0deg);transform-origin:center;}
+	60%    { transform:rotate(45deg);transform-origin:center;}
+	100%    { transform:rotate(300deg);transform-origin:center;}
+}
+
+
+
+
+
+.path {
+  animation: draw 3.5s infinite;
+}
+ 
+ @keyframes draw {
+  50% {
+    stroke-dashoffset: 0;
+  }
+}
+
+#sinus1{
+  stroke-dasharray: 790 10;
+  animation: sin1 5s linear infinite;
+}
+#sinus2{
+  stroke-dasharray: 453 7;
+  animation: sin2 5s linear infinite;
+}
+
+@keyframes sin1 {
+	from {
+    stroke-dashoffset: 800;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes sin2{
+	from {
+    stroke-dashoffset: 460;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
